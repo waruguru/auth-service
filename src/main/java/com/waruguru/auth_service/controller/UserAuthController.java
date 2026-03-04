@@ -34,7 +34,16 @@ public class UserAuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserAuthResponse> login(@RequestBody UserLoginRequest request) {
-        return ResponseEntity.ok(authService.loginUser(request));
+    public ResponseEntity<ApiResponse<UserAuthResponse>> login(@RequestBody UserLoginRequest request) {
+        UserAuthResponse response = authService.loginUser(request);
+
+        ApiResponse<UserAuthResponse> apiResponse = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Login successful",
+                null,
+                response
+        );
+
+        return ResponseEntity.ok(apiResponse);
     }
 }
